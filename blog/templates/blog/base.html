@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>My blog</title>
+        <title>Django Girls</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static "css/blog.css" %}">
@@ -12,14 +12,22 @@
     <body>
         
         <div class="page-header">
-        <a href="{% url "blog.views.post_new" %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <h1><a href="/">Whoaaa it's a blog</a></h1>
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <p class="top-menu">Hello {{ user.username }}(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</p>
+            
+            {% else %}
+            <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+            {% endif %}
+            <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
         </div>
         
  <div class="content container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
             {% block content %}
+                <hr />
             {% endblock %}
             </div>
         </div>
